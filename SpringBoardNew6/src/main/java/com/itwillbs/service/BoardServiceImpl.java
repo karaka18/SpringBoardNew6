@@ -4,7 +4,7 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
-import com.tiwillbs.persistence.BoardDAO;
+import com.itwillbs.persistence.BoardDAO;
 
 /**
  * 	실제 서비스동작이 수행되는 객체

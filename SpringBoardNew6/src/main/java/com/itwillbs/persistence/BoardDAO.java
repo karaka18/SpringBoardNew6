@@ -1,4 +1,4 @@
-package com.tiwillbs.persistence;
+package com.itwillbs.persistence;
 
 /**
  *	DB의 정보를 처리하는 객체
