@@ -3,10 +3,14 @@ package com.itwillbs.controller;
 import javax.inject.Inject;
 import javax.sql.DataSource;
 
+import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import com.itwillbs.service.BoardDAO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(
@@ -18,12 +22,25 @@ public class DataSourceTest {
 	@Inject
 	private DataSource ds;
 	
-	@Test
+	@Inject
+	private BoardDAO bDAO;
+	
+	//@Test
 	public void ds_test() {
 		System.out.println(" 디비 연결정보 확인테스트! ");
-		System.out.println("ds : " + ds);
-		
+		System.out.println("ds : " + ds);	
 	}
+	
+	// mylog
+	private static final org.slf4j.Logger logger
+		= LoggerFactory.getLogger(DataSourceTest.class);
+	
+	@Test
+	public void getServerTime_test() {
+		String time = bDAO.getServerTime();
+		logger.info("time :{}", time);
+	}
+	
 	
 	
 }
