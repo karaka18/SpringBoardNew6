@@ -1,4 +1,4 @@
-package com.itwillbs.service;
+package com.tiwillbs.persistence;
 
 import javax.inject.Inject;
 
