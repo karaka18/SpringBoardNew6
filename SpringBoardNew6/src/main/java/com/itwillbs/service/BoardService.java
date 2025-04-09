@@ -6,5 +6,5 @@ package com.itwillbs.service;
 
 public interface BoardService {
 	
-	public String ServerTime();
+	public String getServerTime();
 }

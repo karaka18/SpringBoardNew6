@@ -18,7 +18,7 @@ public class BoardServiceImpl implements BoardService{
 	private BoardDAO bDao;
 	
 	@Override
-	public String ServerTime() {
+	public String getServerTime() {
 
 		return bDao.getServerTime();
 	}
