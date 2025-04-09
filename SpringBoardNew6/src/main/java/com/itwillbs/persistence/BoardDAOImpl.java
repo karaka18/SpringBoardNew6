@@ -1,4 +1,4 @@
-package com.tiwillbs.persistence;
+package com.itwillbs.persistence;
 
 import javax.inject.Inject;
 
@@ -19,7 +19,7 @@ public class BoardDAOImpl implements BoardDAO{
 	
 	//boardMapper.xml 접근 이름
 	private static final String NAMESPACE
-			="com.itwillbs.mapper.BoardMapper";
+			="com.itwillbs.mapper.BoardMapper.";
 	
 	@Override
 	public String getServerTime() {
@@ -28,7 +28,7 @@ public class BoardDAOImpl implements BoardDAO{
 		String time
 			= sqlSession.selectOne(NAMESPACE + "getServerTime");
 
-		return null;
+		return time;
 	}
 
 	
