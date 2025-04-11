@@ -3,7 +3,11 @@ package com.itwillbs.persistence;
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
+
+import com.itwillbs.domain.BoardVO;
 
 /**
  *  BoardDAO 인터페이스 객체를 구현한 객체
@@ -12,6 +16,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository		// Repository는 저장소라는 뜻으로 BoardDAO에대한 처리는 여기서 전부 한다는 뜻
 public class BoardDAOImpl implements BoardDAO{
+	//mylog
+	private static final Logger logger = LoggerFactory.getLogger(BoardDAOImpl.class);
+
 	
 	// SqlSession 객체를 주입
 	@Inject
@@ -30,6 +37,21 @@ public class BoardDAOImpl implements BoardDAO{
 
 		return time;
 	}
+
+	@Override
+	public void insertBoard(BoardVO vo) throws Exception {
+		logger.info("insertBoard(BoardVO vo) 실행");
+		logger.info(" 전달받은 정보를 사용해서 SQL구문 실행 (mapper 실행)");
+		
+		// 디비연결 객체를 사용해서 필요한 SQL구문 실행
+		sqlSession.insert(NAMESPACE + "insertBoard", vo);
+		
+		logger.info(" mapper 실행 완료! -> 결과를 서비스로 전달");
+	}
+	
+	
+	
+	
 
 	
 	

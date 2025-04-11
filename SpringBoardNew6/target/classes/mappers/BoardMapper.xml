@@ -5,9 +5,16 @@
   
 <mapper namespace="com.itwillbs.mapper.BoardMapper">
 
-<select id="getServerTime" resultType="string">
-		select now()
+	<select id="getServerTime" resultType="string">
+			select now()
 	</select>
+
+	<!-- 게시판 글쓰기 -->
+	<insert id="insertBoard" parameterType="com.itwillbs.domain.BoardVO">
+		insert into tbl_board(title, content, writer) 
+		values(#{title},#{content},#{writer})
+	</insert>
+	<!-- 게시판 글쓰기 -->
 
 
 </mapper>
