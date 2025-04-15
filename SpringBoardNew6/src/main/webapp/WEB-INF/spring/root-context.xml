@@ -6,22 +6,21 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
-		
 	<!-- dataSource : 디비연결 정보 객체 -->
-<!-- 	<bean id="dataSource"
-		  class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		  
+<!-- 	<bean id="dataSource" 
+	      class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+	
 		<property name="driverClassName"
-				  value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy" />
-		<property name="url"
-		  		  value="jdbc:log4jdbc:mysql://localhost:3306/springdb" />
-		<property name="username"
-				  value="root" />
-		<property name="password"
-				  value="1234" />	
-	
+		          value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"/>
+		<property name="url" 
+		          value="jdbc:log4jdbc:mysql://localhost:3306/springdb" />
+        <property name="username" 
+                  value="root" />
+        <property name="password"
+                  value="1234"/>          		                    
 	</bean> -->
-	
+	<!-- dataSource : 디비연결 정보 객체 -->
+		
 	<!-- 디비연결정보 객체 (hikariCP)-->
 	<bean id="hikariConfig"
 	      class="com.zaxxer.hikari.HikariConfig">
@@ -74,11 +73,11 @@
 	                          ,트래젝션 관리, 쓰레드 처리 안정성 높임,
 	                         , SQL 실행,MyBatis 설정,mapper 설정  -->
 	
-	
 	<!-- 외부에서 생성된 객체(빈)를 등록 -->
-	<context:component-scan base-package="com.itwillbs.persistence" />
-	<context:component-scan base-package="com.itwillbs.service" />
+	<context:component-scan base-package="com.itwillbs.persistence"/>
+	<context:component-scan base-package="com.itwillbs.service"/>
 	
-	
-	
+		
+		
+		
 </beans>

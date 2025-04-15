@@ -5,16 +5,25 @@
   
 <mapper namespace="com.itwillbs.mapper.BoardMapper">
 
+	<!-- 시간정보 조회 -->
 	<select id="getServerTime" resultType="string">
-			select now()
+		select now()
 	</select>
-
+	
 	<!-- 게시판 글쓰기 -->
-	<insert id="insertBoard" parameterType="com.itwillbs.domain.BoardVO">
-		insert into tbl_board(title, content, writer) 
+	<insert id="insertBoard">
+		insert into tbl_board (title,content,writer) 
 		values(#{title},#{content},#{writer})
 	</insert>
 	<!-- 게시판 글쓰기 -->
-
+	
+	<!-- 게시판 전체 목록조회 -->
+	<select id="listAll" resultType="BoardVO">
+		select * from tbl_board	
+		order by bno desc
+	</select>	
+	<!-- 게시판 전체 목록조회 -->
+	
+	
 
 </mapper>
