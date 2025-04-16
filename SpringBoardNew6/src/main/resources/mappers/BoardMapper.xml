@@ -9,6 +9,7 @@
 	<select id="getServerTime" resultType="string">
 		select now()
 	</select>
+	<!-- 시간정보 조회 -->
 	
 	<!-- 게시판 글쓰기 -->
 	<insert id="insertBoard">
@@ -24,6 +25,19 @@
 	</select>	
 	<!-- 게시판 전체 목록조회 -->
 	
+	<!-- 게시판 특정 글 조회 -->
+	<select id="getBoard" resultType="BoardVO">
+		select * from tbl_board
+		where bno=#{bno}
+	</select>
+	<!-- 게시판 특정 글 조회 -->
+	
+	<!-- 특정 글 조회수 1증가 -->
+	<update id="updateViewcnt">
+		update tbl_board set viewcnt=viewcnt + 1
+		where bno=#{bno}
+	</update>
+	<!-- 특정 글 조회수 1증가 -->
 	
 
 </mapper>
