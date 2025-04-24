@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
+    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
    
 <!DOCTYPE html>
 <html>
@@ -27,6 +30,10 @@
     <![endif]-->
     
   </head>
+  
+  <!-- sweetalert2 라이브러리 추가 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  
       <!-- jQuery 2.1.4 -->
     <script src="${pageContext.request.contextPath }/resources/plugins/jQuery/jQuery-2.1.4.min.js"></script>
   <body class="skin-blue sidebar-mini">
@@ -318,8 +325,8 @@
                 <i class="fa fa-dashboard"></i> <span>Dashboard</span> <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="${pageContext.request.contextPath }/resources/index.html"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
-                <li><a href="${pageContext.request.contextPath }/resources/index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
+                <li><a href="/board/regist"><i class="fa fa-circle-o"></i> 글쓰기 </a></li>
+                <li><a href="/board/listAll"><i class="fa fa-circle-o"></i> 글목록</a></li>
               </ul>
             </li>
             <li class="treeview">
