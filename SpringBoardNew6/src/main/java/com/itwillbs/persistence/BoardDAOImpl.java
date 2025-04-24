@@ -86,6 +86,15 @@ public class BoardDAOImpl implements BoardDAO{
 		sqlSession.update(NAMESPACE + "updateBoard", uvo);
 		
 	}
+
+	@Override
+	public Integer deleteBoard(BoardVO dvo) throws Exception {
+		logger.info("deleteBoard(BoardVO dvo) 호출");
+		
+		int result = sqlSession.delete(NAMESPACE + "deleteBoard", dvo);
+		
+		return result;
+	}
 	
 	
 	

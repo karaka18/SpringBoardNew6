@@ -79,6 +79,18 @@
 			  icon: "success"
 			});
 		}
+		
+		if(result == "deleteErr"){
+			Swal.fire({
+			  title: "글삭제 실패!",
+			  text: " 게시판 리스트로 이동합니다! ",
+			  icon: "error"
+			});
+		}
+		
+		
+		
+		
 	
 	</script>
 	
@@ -94,5 +106,7 @@
 			
 		});
 	</script>
+	
+	
 	
 <%@include file="../include/footer.jsp" %>   
