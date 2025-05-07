@@ -3,6 +3,7 @@ package com.itwillbs.service;
 import java.util.List;
 
 import com.itwillbs.domain.BoardVO;
+import com.itwillbs.domain.Criteria;
 
 /**
  *  서비스의 영억 - 동작의 제어가 필요한 경우 처리
@@ -27,6 +28,9 @@ public interface BoardService {
 	public void modifyBoard(BoardVO uvo) throws Exception;
 	
 	public Integer removeBoard(BoardVO dvo) throws Exception;
+	
+	// 게시판 목록 조회(+ 페이징처리)
+	public List<BoardVO> getBoardListPage(Criteria cri) throws Exception;
 	
 	
 }

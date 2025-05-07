@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.itwillbs.domain.BoardVO;
+import com.itwillbs.domain.Criteria;
 import com.itwillbs.persistence.BoardDAO;
 
 /**
@@ -81,6 +82,14 @@ public class BoardServiceImpl implements BoardService{
 		
 		return bDao.deleteBoard(dvo);
 	}
+
+	@Override
+	public List<BoardVO> getBoardListPage(Criteria cri) throws Exception {
+		logger.info(" getBoardListPage(Criteria Cri) 호출 ");
+		return bDao.listPage(cri);
+	}
+	
+	
 	
 	
 	

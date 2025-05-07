@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.itwillbs.domain.BoardVO;
+import com.itwillbs.domain.Criteria;
 import com.itwillbs.service.BoardService;
 
 @Controller
@@ -191,6 +192,43 @@ public class BoardController {
 		rttr.addFlashAttribute("result", "deleteOK");
 		return "redirect:/board/listAll";
 	}
+	
+	
+	// 게시판 목록 - GET
+	@RequestMapping(value = "/listPage",method = RequestMethod.GET)
+	// @GetMapping(value = "/listAll")
+	public String listPageGET(Criteria cri
+						  ,HttpSession session
+			 			  ,Model model
+			 			  ,@ModelAttribute("result") String result) throws Exception{
+		logger.info(" listAllGET() 실행 ");
+		// 전달정보 result 저장
+		logger.info(" result : "+result);
+		
+		// 기존의 DB데이터를 가져와서 화면(view)에 출력
+		// => 서비스 -> DAO 호출
+		//Criteria cri = new Criteria();
+		cri.setPage(1);
+		cri.setPageSize(5);
+		
+		List<BoardVO> boardList = 
+				bService.getBoardListPage(cri);
+		
+		logger.info(" boardList : {} 개",boardList.size());
+		
+		// => 생성된 데이터를 뷰페이지에 전달(Model)
+		model.addAttribute("boardList", boardList);
+		
+		// session 영역에 정보를 저장 & 전달
+		session.setAttribute("updateCheck", true);
+		
+		// 임시로 로그인 대신하는 정보
+		session.setAttribute("id", "ok");
+		
+		// 연결된 뷰페이지로 이동(/board/listAll.jsp)
+		return "/board/listAll";
+	}
+	
 	
 	
 	
