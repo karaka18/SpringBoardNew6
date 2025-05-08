@@ -9,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.itwillbs.domain.BoardVO;
+import com.itwillbs.domain.Criteria;
+import com.itwillbs.domain.PageVO;
 import com.itwillbs.service.BoardService;
 
 @Controller
@@ -70,7 +71,8 @@ public class BoardController {
 		
 		// 게시판 글목록 페이지로 이동
 		//return "/board/listAll";(x)
-		return "redirect:/board/listAll";
+		//return "redirect:/board/listAll";
+		return "redirect:/board/listPage";
 	}
 	
 	// 게시판 목록 - GET
@@ -94,11 +96,52 @@ public class BoardController {
 		
 		// session 영역에 정보를 저장 & 전달
 		session.setAttribute("updateCheck", true);
+
+		// 임시로 로그인 대신하는 정보
+		session.setAttribute("id", "ok");
+		
+		// 연결된 뷰페이지로 이동(/board/listAll.jsp)
+	}
+	// 게시판 목록 - GET
+	@RequestMapping(value = "/listPage",method = RequestMethod.GET)
+	public String listPageGET(Criteria cri
+			,HttpSession session
+			,Model model
+			,@ModelAttribute("result") String result) throws Exception{
+		logger.info(" listPageGET() 실행 ");
+		// 전달정보 result 저장
+		logger.info(" result : "+result);
+		
+		// 기존의 DB데이터를 가져와서 화면(view)에 출력
+		// => 서비스 -> DAO 호출
+//		Criteria cri = new Criteria();
+//		cri.setPage(1);
+//		cri.setPageSize(10);
+		
+		List<BoardVO> boardList 
+		         = bService.getBoardListPage(cri);
+		
+		logger.info(" boardList : {} 개",boardList.size());
+		
+		// 페이징처리에 필요한 정보 
+		PageVO pageVO = new PageVO();
+		pageVO.setCri(cri);
+		//pageVO.setTotalCount(89);
+		pageVO.setTotalCount(bService.getTotalCount());
+		
+		// => 생성된 데이터를 뷰페이지에 전달(Model)
+		model.addAttribute("boardList", boardList);
+		model.addAttribute("pageVO", pageVO);
+		
+		
+		// session 영역에 정보를 저장 & 전달
+		session.setAttribute("updateCheck", true);
 		
 		// 임시로 로그인 대신하는 정보
 		session.setAttribute("id", "ok");
 		
 		// 연결된 뷰페이지로 이동(/board/listAll.jsp)
+		return "/board/listAll";
 	}
 	
 	// 게시판 본문보기GET   /board/read
@@ -121,6 +164,7 @@ public class BoardController {
 			bService.increaseViewCnt(bno);
 			session.setAttribute("updateCheck", false);
 		}
+		
 		
 		// 서비스 -> 글 하나의 정보를 조회하는 동작 호출
 		BoardVO vo = bService.getBoard(bno);
@@ -148,34 +192,35 @@ public class BoardController {
 	}
 	
 	// 글정보 수정하기-POST
-	@RequestMapping(value="/modify", method = RequestMethod.POST)
-	public String modifyPOST(RedirectAttributes rttr,
-			/*@ModelAttribute*/BoardVO uvo) throws Exception {
+	@RequestMapping(value = "/modify",method = RequestMethod.POST)
+	public String modifyPOST(Criteria cri,RedirectAttributes rttr,
+			 /*@ModelAttribute*/ BoardVO uvo) throws Exception {
 		logger.info(" modifyPOST() 실행 ");
-		// 한글처리 인코딩(생략 - 필터처리)
+		// 한글처리 인코딩(생략- 필터처리)
 		// 전달된 정보(수정할 내용-파라메터)를 저장 => 파라메터 자동수집
 		
-		logger.info(" uvo : " + uvo);
+		logger.info(" uvo : "+uvo);
 		
 		// 서비스 - 사용자 게시판 글 수정하는 메서드 호출
 		bService.modifyBoard(uvo);
 		logger.info(" 게시판 수정 성공! ");
 		
 		// 리스트 페이지로 이동 + "수정 완료" alert 출력
-		rttr.addFlashAttribute("result", "modifyOK");
+		rttr.addFlashAttribute("result","modifyOK");
 		
 		
-		return "redirect:/board/listAll";
+		//return "redirect:/board/listAll";
+		return "redirect:/board/listPage?page="+cri.getPage();
 	}
 	
 	// 게시판 글 삭제
-	@RequestMapping(value="/remove",method=RequestMethod.POST)
-	public String removePOST(RedirectAttributes rttr,
-							BoardVO dvo) throws Exception{
+	@RequestMapping(value = "/remove",method = RequestMethod.POST)
+	public String removePOST(Criteria cri, RedirectAttributes rttr,
+			                BoardVO dvo) throws Exception {
 		logger.info(" removePOST() 호출 ");
 		
-		// 전달된 정보 저장
-		logger.info(" dvo : " + dvo);
+		// 전달된 정보(bno) 저장
+		logger.info(" dvo : "+dvo);
 		
 		// 서비스 - 특정 글정보를 삭제기능
 		int result = bService.removeBoard(dvo);
@@ -183,14 +228,18 @@ public class BoardController {
 		if(result == 0) {
 			rttr.addFlashAttribute("result", "deleteErr");
 			// 삭제 실패
-			//return "redirect:/board/read?bno="+dvo.getBno();
-			return "redirect:/board/listAll";
+//			return "redirect:/board/read?bno="+dvo.getBno();
+			//return "redirect:/board/listAll";
+			return "redirect:/board/listPage?page="+cri.getPage();
 		}
 		
 		// 삭제 성공
 		rttr.addFlashAttribute("result", "deleteOK");
-		return "redirect:/board/listAll";
+		//return "redirect:/board/listAll";
+		return "redirect:/board/listPage?page="+cri.getPage();
 	}
+	
+	
 	
 	
 	
