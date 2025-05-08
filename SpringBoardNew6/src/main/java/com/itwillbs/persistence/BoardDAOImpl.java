@@ -134,6 +134,13 @@ public class BoardDAOImpl implements BoardDAO{
 		
 		return sqlSession.selectList(NAMESPACE + "listCri", cri);
 	}
+
+	@Override
+	public int getTotalCount() throws Exception {
+		logger.info(" getTotalCount() 호출 ");
+		return sqlSession.selectOne(NAMESPACE + "getTotalCount");
+		
+	}
 	
 	
 	
